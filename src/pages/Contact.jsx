@@ -17,7 +17,7 @@ function Contact() {
 
 
   // =========================
-  // Send Email
+  // Send Email Only
   // =========================
   const sendMessage = async (e) => {
 
@@ -81,6 +81,7 @@ function Contact() {
 
 
 
+
       <div className="contact-container">
 
 
@@ -94,68 +95,45 @@ function Contact() {
 
 
           <input
-
             type="text"
-
             name="user_name"
-
             placeholder="الاسم"
-
             required
-
           />
 
 
 
           <input
-
             type="email"
-
             name="user_email"
-
             placeholder="البريد الإلكتروني"
-
             required
-
           />
 
 
 
           <input
-
             type="text"
-
             name="subject"
-
             placeholder="الموضوع"
-
             required
-
           />
 
 
 
           <textarea
-
             name="message"
-
             rows="6"
-
             placeholder="اكتب رسالتك هنا..."
-
             required
-
           ></textarea>
 
 
 
 
           <button
-
             type="submit"
-
             disabled={loading}
-
           >
 
             <FaPaperPlane />
@@ -177,9 +155,7 @@ function Contact() {
             status && (
 
               <p className="form-status">
-
                 {status}
-
               </p>
 
             )
@@ -193,10 +169,13 @@ function Contact() {
 
 
 
+
+
         {/* Contact Information */}
 
 
         <div className="contact-info">
+
 
 
 
@@ -225,12 +204,15 @@ function Contact() {
 
 
 
+
+          {/* Telegram Channel Link Only */}
+
           <div className="info-card">
 
 
             <a
 
-              href="https://t.me/BACAcademyContactBot"
+              href="https://t.me/bac2026weca"
 
               target="_blank"
 
@@ -259,6 +241,8 @@ function Contact() {
 
 
           </div>
+
+
 
 
 
@@ -297,6 +281,7 @@ function Contact() {
 
 
 
+
       <div className="feedback">
 
 
@@ -319,6 +304,7 @@ function Contact() {
           وتحسين تجربة استخدامها.
 
         </p>
+
 
 
 
