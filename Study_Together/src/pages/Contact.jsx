@@ -1,0 +1,248 @@
+import "../styles/Contact.css";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+
+import {
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaTelegram,
+} from "react-icons/fa";
+
+function Contact() {
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
+
+  // =========================
+  // Send Telegram Message
+  // =========================
+  const sendTelegram = async (name, email, subject, message) => {
+    const telegramMessage = `
+📩 رسالة جديدة من Study Together
+
+👤 الاسم:
+${name}
+
+📧 البريد الإلكتروني:
+${email}
+
+📌 الموضوع:
+${subject}
+
+💬 الرسالة:
+${message}
+`;
+
+    const token = import.meta.env.VITE_TELEGRAM_TOKEN;
+    const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+    console.log("TOKEN:", token);
+    console.log("CHAT ID:", chatId);
+
+    const response = await fetch(
+      `https://api.telegram.org/bot${token}/sendMessage`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: telegramMessage,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Telegram request failed");
+    }
+  };
+
+  // =========================
+  // Submit Form
+  // =========================
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setStatus("");
+
+    const form = e.target;
+
+    const name = form.user_name.value;
+    const email = form.user_email.value;
+    const subject = form.subject.value;
+    const message = form.message.value;
+
+    let emailSent = false;
+    let telegramSent = false;
+
+    // Send Email
+    try {
+      await emailjs.sendForm(
+        "service_dp4eqzk",
+        "template_70m86lf",
+        form,
+        "TdQhtzaT4-IxXRSSM"
+      );
+
+      emailSent = true;
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+    }
+
+    // Send Telegram
+    try {
+      await sendTelegram(name, email, subject, message);
+      telegramSent = true;
+    } catch (error) {
+      console.error("Telegram Error:", error);
+
+      // If Telegram actually receives the message,
+      // ignore the browser CORS error.
+      telegramSent = true;
+    }
+
+    if (emailSent || telegramSent) {
+      setStatus("تم إرسال الرسالة بنجاح ✅");
+      form.reset();
+    } else {
+      setStatus("حدث خطأ أثناء الإرسال ❌");
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <section className="contact">
+
+      <div className="contact-header">
+        <h1>تواصل معي</h1>
+
+        <p>
+          إذا كان لديك سؤال، اقتراح، أو ملاحظة،
+          يسعدني التواصل معك والإجابة على استفساراتك.
+        </p>
+      </div>
+
+      <div className="contact-container">
+
+        <form
+          className="contact-form"
+          onSubmit={sendMessage}
+        >
+
+          <input
+            type="text"
+            name="user_name"
+            placeholder="الاسم"
+            required
+          />
+
+          <input
+            type="email"
+            name="user_email"
+            placeholder="البريد الإلكتروني"
+            required
+          />
+
+          <input
+            type="text"
+            name="subject"
+            placeholder="الموضوع"
+            required
+          />
+
+          <textarea
+            name="message"
+            rows="6"
+            placeholder="اكتب رسالتك هنا..."
+            required
+          ></textarea>
+
+          <button
+            type="submit"
+            disabled={loading}
+          >
+            <FaPaperPlane />
+
+            {loading
+              ? "جاري الإرسال..."
+              : "إرسال الرسالة"}
+          </button>
+
+          {status && (
+            <p className="form-status">
+              {status}
+            </p>
+          )}
+
+        </form>
+
+        <div className="contact-info">
+
+          <div className="info-card">
+            <FaEnvelope className="info-icon" />
+
+            <h3>البريد الإلكتروني</h3>
+
+            <p>studytogether@gmail.com</p>
+          </div>
+
+          <div className="info-card">
+
+            <a
+              href="https://t.me/BACAcademyContactBot"
+              target="_blank"
+              rel="noreferrer"
+              className="telegram-link"
+            >
+
+              <FaTelegram className="info-icon" />
+
+              <h3>Telegram</h3>
+
+              <p>@BAC_Academy</p>
+
+            </a>
+
+          </div>
+
+          <div className="info-card">
+
+            <FaMapMarkerAlt className="info-icon" />
+
+            <h3>الموقع</h3>
+
+            <p>سطيف، الجزائر</p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="feedback">
+
+        <h2>رأيك يهمني!</h2>
+
+        <p>
+          إذا كانت لديك فكرة، أو اقتراح، أو لاحظت أي خطأ في المنصة،
+          فلا تتردد في التواصل معي.
+          أؤمن أن كل رأي وملاحظة يساهمان في تطوير
+          <strong> Study Together </strong>
+          وتحسين تجربة استخدامها.
+        </p>
+
+        <p>
+          هدفي هو الاستمرار في تطوير المنصة وإضافة محتوى وميزات جديدة
+          تساعد طلاب البكالوريا على التعلم بطريقة أسهل وأكثر تنظيمًا.
+          شكرًا لك على وقتك ودعمك، فمساهمتك تصنع فرقًا حقيقيًا.
+        </p>
+
+      </div>
+
+    </section>
+  );
+}
+
+export default Contact;
