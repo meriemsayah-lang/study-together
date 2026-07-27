@@ -16,7 +16,7 @@ const Philosophy = {
     {
       name: "أستاذ الفلسفة عادل مقرود",
     
-      url: "https://www.youtube.com/@math_dz",
+      url: "https://www.youtube.com/@أستاذالفلسفةعادلمقرود",
 
     },
     {

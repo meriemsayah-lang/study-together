@@ -18,7 +18,7 @@ const History = {
     {
       name: "الأستاذ بورنان",
       
-      url: "https://www.youtube.com/@math_dz",
+      url: "https://www.youtube.com/@الأستاذبورنان",
 
     },
     {

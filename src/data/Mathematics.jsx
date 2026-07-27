@@ -18,7 +18,7 @@ const Mathematics = {
     {
       name: "الاستاذ نورالدين",
 
-      url: "https://www.youtube.com/@noureddine",
+      url: "https://www.youtube.com/@noureddine2013",
 
     },
     {
